@@ -1,9 +1,11 @@
-const http = require('http');
+const express = require('express');
+const app = express();
+const questions = require('./questions').questions;
 
-const server = http.createServer();
-server.on('connection', (socket => {
-    console.log('new connection');
-}));
+app.get('/api/questions', (request, response) => {
+    response.send(questions);
+});
 
-server.listen(3000);
-console.info('Server is running on port 3000');
+app.listen(3000, function () {
+    console.info(`Server is running at port 3000`);
+});
