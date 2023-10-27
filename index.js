@@ -3,13 +3,23 @@ const app = express();
 const questions = require('./questions').questions;
 const serverPort = require('./config').serverPort;
 
+app.use(express.json());
 
 app.listen(serverPort, function () {
     console.info(`Server is running at port ` + serverPort);
 });
-app.get('/api/questions', (request, response) => {
-    response.send(questions);
-});
+
+app.route('/api/questions')
+    .get((request, response) => {
+        response.json(questions);
+    })
+    .post((request, response) => {
+        const newQuestion = request.body; // JSON
+        console.log(request.query);
+        questions.push(newQuestion);
+        response.status(201).json(newQuestion);
+        console.log("New question: " + newQuestion)
+    });
 
 app.get('/api/questions/:id', (request, response) => {
     const questionId = parseInt(request.params.id);
