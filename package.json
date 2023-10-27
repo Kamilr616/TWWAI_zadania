@@ -1,0 +1,23 @@
+{
+  "name": "twwai_zadania_lab3",
+  "version": "1.0.0",
+  "description": "zadania lab3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kamilr616/TWWAI_zadania.git"
+  },
+  "author": "Kamil Rataj",
+  "license": "ISC",
+  "dependencies": {
+    "express": "4.18.2"
+  },
+  "bugs": {
+    "url": "https://github.com/Kamilr616/TWWAI_zadania/issues"
+  },
+  "homepage": "https://github.com/Kamilr616/TWWAI_zadania#readme"
+}
