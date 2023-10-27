@@ -15,7 +15,6 @@ app.route('/api/questions')
     })
     .post((request, response) => {
         const newQuestion = request.body; // JSON
-        console.log(request.query);
         questions.push(newQuestion);
         response.status(201).json(newQuestion);
         console.log("New question: " + newQuestion)
