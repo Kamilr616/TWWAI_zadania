@@ -3,7 +3,7 @@ const config = require('./config');
 const app = express();
 const service = require('./service');
 
-let chart1 = {"type":"line","data":{"labels":["January","February","March","April","May","June"],"datasets":[{"label":"My First dataset","backgroundColor":"rgb(255, 99, 132)","borderColor":"rgb(255, 99, 132)","data":[0,10,5,2,20,30,45]}]},"options":{}};
+let chart1 = {"type":"line","data":{"labels":["January","February","March","April","May","June"],"datasets":[{"label":"Wykres czasu","backgroundColor":"rgb(255, 99, 132)","borderColor":"rgb(255, 99, 132)","data":[0,10,5,2,20,30,45]}]},"options":{}};
 
 const temp = `Czas,Temperatura
 2023-11-09 10:00:00,10
@@ -18,11 +18,17 @@ const dataChart2 = service.convertData(temp);
 
 const chart2 = JSON.stringify(dataChart2);
 
+const products = [
+    { name: 'Laptop', price: 1000 },
+    { name: 'Smartphone', price: 500 },
+    { name: 'Tablet', price: 300 }
+];
+
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 
 app.get('/', (request, response) => {
-    response.render(__dirname + '/index.html', {subject: 'Technologie webowe w aplikacjach Internetu', chart1: JSON.stringify(chart1), chart2})
+    response.render(__dirname + '/index.html', {subject: 'Technologie webowe w aplikacjach Internetu', chart1: JSON.stringify(chart1), chart2, products})
 });
 
 

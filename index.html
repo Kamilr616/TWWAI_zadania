@@ -60,6 +60,11 @@
             padding: 15px;
         }
 
+        .tabela {
+            padding: 15px;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
@@ -70,6 +75,7 @@
         <li><a href="#lab">Laboratorium</a></li>
         <li><a href="#wykres1">Wykres1</a></li>
         <li><a href="#wykres2">Wykres2</a></li>
+        <li><a href="#tabela1">Tabela1</a></li>
     </ul>
 </nav>
 
@@ -79,7 +85,7 @@
 
 <section id="lab" class="text">
     <h2><%= subject %></h2>
-    Laboratorium 4. Na stronie powinny pojawić się 2 wykresy.
+    Laboratorium 4. Kamil Rataj
 </section>
 
 <section id="wykres1" class="other">
@@ -99,6 +105,24 @@
     </div>
 
 </section>
+
+<section id="tabela1" class="tabela">
+
+        <table>
+            <tr>
+                <th>Nazwa produktu</th>
+                <th>Cena</th>
+            </tr>
+            <% products.forEach(function(product) { %>
+            <tr>
+                <td><%= product.name %></td>
+                <td><%= product.price %></td>
+            </tr>
+            <% }); %>
+        </table>
+
+</section>
+
 <footer>
     <p class="copy">Copyrights &copy; Kamil Rataj | 2023</p>
 </footer>
