@@ -116,5 +116,43 @@
 
 </script>
 
+<script>
+
+    // pobranie danych z serwera
+    const chart2Config = '<%-chart2%>';
+
+
+    // pobranie referencji do miejsa wyświetlenia
+    const ctx = document.querySelector("#chart2").getContext('2d');
+
+    // sparsowanie danych otrzymanych z serwera w miejscu właściwości data
+    const configChart2 = {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                data: JSON.parse(chart2Config),
+                label: "Temperatura",
+                borderColor: "#3e95cd",
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'linear',
+                }]
+            },
+            legend: {
+                display: false
+            }
+        }
+    };
+
+    // zbudowanie wykresu
+    new Chart(ctx, configChart2);
+</script>
+
 </body>
 </html>
