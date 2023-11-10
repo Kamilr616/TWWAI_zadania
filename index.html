@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Technologie webowe w aplikacjach Internetu</title>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .background {
+            height: 30px;
+            width: 30px;
+        }
+
+        .text {
+            height: 50vh;
+            background-color: #e8dbdb;
+            font-size: 36px;
+            padding: 15px;
+        }
+
+        nav {
+            position: fixed;
+            background-color: #fff;
+            width: 100%;
+            box-shadow: 10px 5px 5px black;
+        }
+
+        nav ul li {
+            list-style-type: none;
+            display: inline;
+            margin-right: 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #0d0fbf;
+            transition: 0.5s;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+            color: #000;
+        }
+
+        footer {
+            text-align: center;
+        }
+
+        .other {
+            padding: 15px;
+        }
+
+        .kontakt {
+            padding: 15px;
+        }
+
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#lab">Laboratorium</a></li>
+        <li><a href="#wykres1">Wykres1</a></li>
+        <li><a href="#wykres2">Wykres2</a></li>
+    </ul>
+</nav>
+
+<section id="home"></section>
+
+<div class="background"></div>
+
+<section id="lab" class="text">
+    <h2><%= subject %></h2>
+    Laboratorium 4. Na stronie powinny pojawić się 2 wykresy.
+</section>
+
+<section id="wykres1" class="other">
+    <div>
+        Testowy wykres
+        <canvas id="chart1"></canvas>
+    </div>
+</section>
+
+<div class="background"></div>
+
+<section id="wykres2" class="kontakt">
+
+    <div>
+        Wykres temperatury
+        <canvas id="chart2"></canvas>
+    </div>
+
+</section>
+<footer>
+    <p class="copy">Copyrights &copy; Kamil Rataj | 2023</p>
+</footer>
+
+<script>
+
+    const chartConfig = '<%-chart1%>';
+
+    const config = JSON.parse(chartConfig);
+
+    const chart1 = new Chart(
+        document.getElementById('chart1'),
+        config
+    );
+
+</script>
+
+</body>
+</html>
