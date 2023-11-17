@@ -3,79 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Technologie webowe w aplikacjach Internetu</title>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-        }
-
-        .background {
-            height: 30px;
-            width: 30px;
-        }
-
-        .text {
-            height: 50vh;
-            background-color: #e8dbdb;
-            font-size: 36px;
-            padding: 15px;
-        }
-
-        nav {
-            position: fixed;
-            background-color: #fff;
-            width: 100%;
-            box-shadow: 10px 5px 5px black;
-        }
-
-        nav ul li {
-            list-style-type: none;
-            display: inline;
-            margin-right: 15px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: #0d0fbf;
-            transition: 0.5s;
-        }
-
-        nav ul li a:hover {
-            text-decoration: underline;
-            color: #000;
-        }
-
-        footer {
-            text-align: center;
-        }
-
-        .other {
-            padding: 15px;
-        }
-
-        .kontakt {
-            padding: 15px;
-        }
-
-        .tabela {
-            padding: 15px;
-            text-align: center;
-        }
-
-    </style>
+    <link rel="stylesheet" href="http://localhost:3001/style.css">
 </head>
 <body>
 
 <nav>
     <ul>
         <li><a href="#home">Home</a></li>
-        <li><a href="#lab">Laboratorium</a></li>
-        <li><a href="#wykres1">Wykres1</a></li>
-        <li><a href="#wykres2">Wykres2</a></li>
-        <li><a href="#tabela1">Tabela1</a></li>
+        <li><a href="#przedmiot">Przedmiot</a></li>
+        <li><a href="#katedra">Katedra</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
     </ul>
 </nav>
 
@@ -83,100 +20,45 @@
 
 <div class="background"></div>
 
-<section id="lab" class="text">
+<section id="przedmiot" class="text">
     <h2><%= subject %></h2>
-    Laboratorium 4. Kamil Rataj
+    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+    type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+    remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
+    Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of
+    Lorem Ipsum.
 </section>
 
-<section id="wykres1" class="other">
-    <div>
-        Testowy wykres
-        <canvas id="chart1"></canvas>
+<section id="katedra" class="other">
+    <div class="logo-wrapper">
+        <div class="logo_katedra">
+        </div>
+        <div class="logo-at">
+        </div>
     </div>
 </section>
+
 
 <div class="background"></div>
 
-<section id="wykres2" class="kontakt">
+<section id="kontakt" class="kontakt">
 
     <div>
-        Wykres temperatury
-        <canvas id="chart2"></canvas>
+        Kontakt:
+        <ul>
+            <li>tel: 123 123 134</li>
+            <li>email: test@test.pl</li>
+            <li>skype: test</li>
+        </ul>
     </div>
-
-</section>
-
-<section id="tabela1" class="tabela">
-
-        <table>
-            <tr>
-                <th>Nazwa produktu</th>
-                <th>Cena</th>
-            </tr>
-            <% products.forEach(function(product) { %>
-            <tr>
-                <td><%= product.name %></td>
-                <td><%= product.price %></td>
-            </tr>
-            <% }); %>
-        </table>
 
 </section>
 
 <footer>
-    <p class="copy">Copyrights &copy; Kamil Rataj | 2023</p>
+    <p class="copy">Copyrights &copy; | 2023</p>
 </footer>
 
-<script>
-
-    const chartConfig = '<%-chart1%>';
-
-    const config = JSON.parse(chartConfig);
-
-    const chart1 = new Chart(
-        document.getElementById('chart1'),
-        config
-    );
-
-</script>
-
-<script>
-
-    // pobranie danych z serwera
-    const chart2Config = '<%-chart2%>';
-
-
-    // pobranie referencji do miejsa wyświetlenia
-    const ctx = document.querySelector("#chart2").getContext('2d');
-
-    // sparsowanie danych otrzymanych z serwera w miejscu właściwości data
-    const configChart2 = {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                data: JSON.parse(chart2Config),
-                label: "Temperatura",
-                borderColor: "#3e95cd",
-                fill: false
-            }]
-        },
-        options: {
-            scales: {
-                xAxes: [{
-                    type: 'time',
-                    distribution: 'linear',
-                }]
-            },
-            legend: {
-                display: false
-            }
-        }
-    };
-
-    // zbudowanie wykresu
-    new Chart(ctx, configChart2);
-</script>
 
 </body>
 </html>
