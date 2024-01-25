@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
-
+import chat-container from '../styles/chat-container.css';
 interface Message {
     username: string;
     message: string;
@@ -109,3 +109,4 @@ const ChatComponent: React.FC = () => {
         </div>
     );
 };
+export default ChatComponent;
