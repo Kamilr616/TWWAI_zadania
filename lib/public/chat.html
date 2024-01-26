@@ -1,0 +1,59 @@
+<!-- chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+</head>
+<body>
+<h1>Simple Chat App</h1>
+
+<div>
+    <label for="usernameInput">Your Name:</label>
+    <input type="text" id="usernameInput" placeholder="Enter your name">
+</div>
+
+<div>
+    <label for="roomInput">Room:</label>
+    <input type="text" id="roomInput" placeholder="Enter room name">
+    <button onclick="joinRoom()">Join Room</button>
+</div>
+
+<div>
+    <label for="messageInput">Message:</label>
+    <input type="text" id="messageInput" placeholder="Type your message">
+    <button onclick="sendMessage()">Send Message</button>
+</div>
+
+<ul id="messageList"></ul>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+<script>
+    const socket = io();
+
+    function joinRoom() {
+        const username = document.getElementById('usernameInput').value;
+        const room = document.getElementById('roomInput').value;
+
+        // Emitting both username and room
+        socket.emit('joinRoom', { username, room });
+    }
+
+    function sendMessage() {
+        const username = document.getElementById('usernameInput').value;
+        const room = document.getElementById('roomInput').value;
+        const message = document.getElementById('messageInput').value;
+
+        socket.emit('sendMessage', { username, room, message });
+    }
+
+    socket.on('receiveMessage', (data) => {
+        const messageList = document.getElementById('messageList');
+        const listItem = document.createElement('li');
+        listItem.textContent = `${data.username}: ${data.message}`;
+        messageList.appendChild(listItem);
+    });
+</script>
+</body>
+</html>

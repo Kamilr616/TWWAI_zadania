@@ -1,79 +1,83 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import morgan from 'morgan';
-import Controller from './interfaces/controller.interface';
-import ChatController from './controllers/chat.controller';
-import { config } from './config'
-import mongoose from 'mongoose';
 import cors from 'cors';
-import http from 'http';
-import { Server } from 'socket.io';
+import Controller from './interfaces/controller.interface';
+import PostModel from "./models/PostModel";
+import { config } from './config';
+import mongoose from 'mongoose';
+import * as http from 'http';
+import path from 'path';
 
 class App {
-  public app: express.Application;
-  private httpServer: http.Server;
-  private io: Server;
+    public app: express.Application;
+    private httpServer: http.Server;
 
-  constructor(controllers: Controller[]) {
-    this.app = express();
-    this.httpServer = http.createServer(this.app);
-    this.io = new Server(this.httpServer, {
-      cors: {
-        origin: 'http://localhost:5173',
-        methods: ['GET', 'POST'],
-      },
-    });
+    constructor(controllers: Controller[]) {
+        this.app = express();
+        this.httpServer = http.createServer(this.app);
 
-    this.initializeMiddlewares();
-    this.initializeControllers(controllers);
-    this.connectToDatabase();
-    this.initializeSockets();
+        this.initializeMiddlewares();
+        this.initializeControllers(controllers);
+        this.connectToDatabase();
+    }
 
-  }
-  private initializeSockets(): void {
-    console.log('Sockets work');
+    public listen(): void {
+        this.httpServer.listen(config.port, () => {
+            console.log(`App listening on the port ${config.port}`);
+        });
+    }
 
-    const chatController = new ChatController(this.io);
-    chatController.initializeRoutes(this.app);
-  }
+    private initializeMiddlewares(): void {
+        this.app.use(bodyParser.json());
+        this.app.use(morgan('dev'));
+        this.app.use(
+            cors({
+                origin: '*',
+                methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+                credentials: true,
+                optionsSuccessStatus: 204,
+                allowedHeaders: 'Content-Type,Authorization',
+            })
+        );
+        this.app.use(express.static("'../../../build"));
+    }
 
-  public listen(): void {
-    this.httpServer.listen(config.port, () => {
-      console.log(`App listening on the port ${config.port}`);
-    });
+    private initializeControllers(controllers: Controller[]): void {
+        controllers.forEach((controller) => {
+            this.app.use('/', controller.router);
+        });
+        this.app.get('/posts', this.getPosts);
+    }
 
-  }
-  private connectToDatabase(): void {
-    mongoose.connect(config.databaseUrl);
+    private serveStaticFiles(): void { // Add this method
+        this.app.use(express.static(path.join(__dirname, '../../../build')));
+    }
 
-    const db = mongoose.connection;
+    private getPosts = async (req: express.Request, res: express.Response) => {
+        try {
+            const posts = await PostModel.find();
+            res.render('posts', { posts });
+        } catch (error) {
+            console.error('Error while fetching posts:', error);
+            res.status(500).json({ error: 'An error occurred while fetching posts' });
+        }
+    }
 
-    db.on('error', (error: any) => {
-      console.error('Error connection - MongoDB:', error);
-    });
-    db.once('open', () => {
-      console.log('Connect with database established');
-    });
-  }
+    private connectToDatabase(): void {
+        mongoose.connect(config.databaseUrl);
 
+        const db = mongoose.connection;
 
-  private initializeMiddlewares(): void {
-    this.app.use(bodyParser.json());
-    this.app.use(morgan('dev'));
-    this.app.use(cors({
-      origin: '*',
-      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-      credentials: true,
-      optionsSuccessStatus: 204,
-      allowedHeaders: 'Content-Type,Authorization',
-    }));
-    this.app.use(express.static("'../../../build"));
-  }
+        db.on('error', (error: any) => {
+            console.error('Error connecting to MongoDB:', error);
+        });
 
-  private initializeControllers(controllers: Controller[]): void {
-    controllers.forEach((controller) => {
-      this.app.use('/', controller.router);
-    });
-  }
+        db.once('open', () => {
+            console.log('Connection with the database established');
+        });
+    }
+
 }
+
 export default App;
